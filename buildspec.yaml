@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+  pre_build:
+    commands:
+      - echo Logging in to docker.io...
+      - echo $USERNAME
+      - echo $PASSWORD
+      - docker login -u $USERNAME -p $PASSWORD
+      
+      
+  build:
+    commands:
+      - echo Building the Docker image...
+      - docker build -t adi13raj/ecs-fargate-test:latest .
+      
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push adi13raj/ecs-fargate-test:latest
+      - aws ecs update-service --cluster fargate-demo-aditya-cluster --service demo --force-new-deployment
+      - aws ecs update-service --cluster fargate-demo-aditya-cluster --service demo --desired-count 0
+      - aws ecs update-service --cluster fargate-demo-aditya-cluster --service demo --desired-count 1
