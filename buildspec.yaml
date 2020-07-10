@@ -22,6 +22,6 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       - docker push adi13raj/ecs-fargate-test:latest
-      - aws ecs update-service --cluster myapp-cluster --service myapp-service --force-new-deployment
-      - aws ecs update-service --cluster myapp-cluster --service myapp-service --desired-count 0
-      - aws ecs update-service --cluster myapp-cluster --service myapp-service --desired-count 1
+      - aws ecs update-service --cluster sequoia-test --service myapp-service --force-new-deployment
+      - aws ecs update-service --cluster sequoia-test --service myapp-service --desired-count 0
+      - aws ecs update-service --cluster sequoia-test --service myapp-service --desired-count 1
